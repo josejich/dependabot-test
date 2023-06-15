@@ -1,0 +1,24 @@
+# To get started with Dependabot version updates, you'll need to specify which
+# package ecosystems to update and where the package manifests are located.
+# Please see the documentation for all configuration options:
+# https://docs.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
+
+version: 2
+registries:
+  my-ruby-server:
+    type: rubygems-server
+    url: https://artifactory.com/artifactory/api/gems/rubygems
+    username: "${{ secrets.ARTIFACTORY_DE_GENERIC_READ_USERNAME }}"
+    password: "${{ secrets.ARTIFACTORY_DE_GENERIC_READ_PASSWORD }}"
+    replaces-base: true
+updates:
+  - package-ecosystem: "bundler" # See documentation for possible values
+    directory: "/" # Location of package manifests
+    insecure-external-code-execution: allow
+    registries:
+      - my-ruby-server
+    schedule:
+      interval: "daily"
+    allow:
+      # Allow both direct and indirect updates for all packages
+      - dependency-name: "my-tooling-library"
